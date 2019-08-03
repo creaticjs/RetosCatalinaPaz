@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--VUE Y COMPONENTES DE VUE-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/vuesax/dist/vuesax.css" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <title>Electronic bill</title>
+</head>
+<body>
+
+    <div id="app">
+        <!--NavBar-->
+        <div class="navbar-fixed">
+            <nav class="card-panel light-green darken-4">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo center">FRUTI  FACTURA</a>
+                </div>
+            </nav>
+        </div>
+         <!-- Modal Trigger -->
+ 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+            <form @submit.prevent="submit"> <!-- para que no haga el comportamiento normal de los formularios... recargar-->
+                    <div class="row">
+                    <div class="input-field col s3">
+                            <input type="text" class="validate" id="nombre_producto" name="nombre_producto" placeholder="Producto" v-model="nombre_producto">
+                            <label  class="active" for="nombre_producto">Producto</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="number" class="validate" id="precio" name="precio" placeholder="Precio" v-model.number="precio">
+                            <label class="active" for="precio">Precio Unidad</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="number" class="validate" id="producto.cantidad" name="cantidad" placeholder="#" v-model.number="cantidad">
+                            <label class="active" for="cantidad">Cantidad</label>
+                        </div>
+                        <div class="input-field col s3">
+                                <input type="number" class="validate" id="producto.subtotal" name="subtotal"  v-model="result" disabled>
+                                <label class="active" for="subtotal">Subtotal</label>
+                         
+                        </div> 
+
+                    </div>
+                <a class= "btn #8bc34a light-green #000000 black" type="submit" @click="addProduct()"><i class="material-icons right"></i>AGREGAR PRODUCTO</a>
+                
+            </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+  <!--MODAL-->
+        <div class="container section">
+            <div class="row">
+                <div id="user-data" class="col s12 m12 l12"> <!--COLUMNAS TAMAÑO S, M  Y L PARA PANTALLA ANCHO-->
+                        
+                    <div class="row">
+                        
+                        <div class="input-field col s6 l6">
+                            <input type="text" class="validate" id="nombre" name="nombre" placeholder="Ingrese nombre" v-model="nombre">
+                            <label  class="active" for="nombre">Nombre del Cliente</label>
+                        </div>
+                        <div class="input-field col s6 l6">
+                            <input type="number" class="validate" id="cedula" name="cedula" placeholder="Cédula" v-model="cedula">
+                            <label  class="active" for="cedula">Cédula del Cliente</label>
+                        </div>
+                    </div>
+                    
+                    <a class="waves-effect waves-light btn modal-trigger green darken-4" href="#modal1">Agregar fruta</a>
+                   
+                </div>
+
+                <div class="col s12 m12 l12">
+                    <div class="card  card-panel teal lighten-2 #9ccc65 light-green lighten-1">
+                    
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Nombre del Cliente:</td>
+                                <td>{{ nombre }}</td>
+                            </tr>
+                            <tr>
+                                    <td>Cédula:</td>
+                                    <td >{{ cedula }}</td>
+                                </tr>
+                               
+                        </tbody>
+                    </table>
+                    <div class="row section table-header #558b2f light-green darken-3">
+                    <div class="col s2">Nombre del Producto</div>
+                    <div class="col s2">Valor </div>
+                    <div class="col s2">Cantidad </div>
+                    <div class="col s2">Iva 16%</div>
+                    <div class="col s2">Subtotal </div>
+                    </div>
+                    <div class="row">
+                    
+                                <products v-for="item in productos" 
+                                :nombre_producto="item.nombre_producto"
+                                :precio="item.precio"
+                                :cantidad="item.cantidad"
+                                :iva="item.iva"
+                                :subtotal="item.subtotal"
+                                v-bind:key="item.id"
+                                >
+                                </products>
+                        
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TOTAL</th>
+                                <th>{{total}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </div>
+          
+        
+        
+    </div>
+
+    <!--Scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuesax/dist/vuesax.umd.js"></script> -->
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./index.js"></script>
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  }); document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+    </script>
+    
+</body>
+</html>

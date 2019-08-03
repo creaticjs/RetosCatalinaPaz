@@ -1,0 +1,12 @@
+body{
+    background-color: #f1f1f1;
+}
+
+.input-group-id{ 
+    max-width: 60%;
+}
+
+ header img{
+    max-height: 25vh;
+    min-width: 100%;
+}

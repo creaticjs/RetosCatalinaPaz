@@ -1,0 +1,158 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Heroes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="heroesI.png" id="img">
+    </header>
+    
+    <!-- navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Heroes</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                 <!-- <a class="nav-link" href="#">Listar al azar</a> --> 
+                 <a  class="nav-link" href="./reto4.html">Listar Heroes</a>
+
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./async.html">Power</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./lista.html">other</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">other2</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    <!-- final navbar-->
+    <div class="container">
+   <div>
+        <div class="row">
+            <div class="col "> 
+                <div class="input-group input-group-id mt-5">
+                    <input class="form-control"  placeholder="Digite el nombre del super heroe" id="variable">
+                    <button class="btn btn-warning" onclick="traerDatos()">Datos Super Heroes</button>
+                </div>
+                <div class="container mt-5">
+                    <h1 id="name"></h1>
+                    <div class="row">
+                        <div class="col">
+                            <img id="image">
+                        </div>
+                        <div class="col ml-5">
+                            <h4 id="gender"></h4>
+                            <h4 id="race"></h4>
+                            <h4 id="height"></h4>
+                            <h4 id="publisher"></h4>
+                            <h4 id="relatives"></h4>
+                        </div>
+                    </div>
+                
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>  
+    <script>
+    //var usuario;
+    
+    function getP(url, callback){
+        var xhttp= new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status ==200){
+                callback(JSON.parse(this.responseText));
+            }
+        };
+        xhttp.open("GET", url);
+        xhttp.send();  
+    }
+
+    function renderPersonaje(personaje){
+        document.getElementById("name").innerHTML =
+        "Nombre:" + personaje.results[0].name; 
+        document.getElementById("gender").innerHTML =
+        "Genero:" + personaje.results[0].appearance.gender;
+        document.getElementById("race").innerHTML =
+        "Raza:" + personaje.results[0].appearance.race;
+        document.getElementById("height").innerHTML =
+        `Altura: ${personaje.results[0].appearance.height[1]} `;
+        document.getElementById("publisher").innerHTML =
+        "Publisher:" + personaje.results[0].biography.publisher;
+        document.getElementById("image").src = personaje.results[0].image.url;
+        document.getElementById("relatives").innerHTML =
+        `Familiares: ${personaje.results[0].connections.relatives}` ;
+        
+    }
+    
+    function traerDatos(){
+        variable= document.getElementById("variable").value;
+        getP("https://www.superheroapi.com/api.php/2265793450153143/search/"+variable, renderPersonaje);
+
+    }
+
+    function getL(url) {
+        return new Promise(function(resolve,reject){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                resolve(JSON.parse(this.responseText))
+            
+            }
+            else{
+                reject(this.status);
+            }
+            } 
+        };    
+        xhttp.open("GET",url);
+        xhttp.send();
+        });
+        }
+
+    async function getAllData(){
+            //array de solicitudes
+            var arrID=['https://www.superheroapi.com/api.php/2265793450153143/69/powerstats','https://www.superheroapi.com/api.php/2265793450153143/263/powerstats', 'https://www.superheroapi.com/api.php/2265793450153143/644/powerstats','https://www.superheroapi.com/api.php/2265793450153143/659/powerstats','https://www.superheroapi.com/api.php/2265793450153143/38/powerstats','https://www.superheroapi.com/api.php/2265793450153143/561/powerstats'];
+            
+            var promises=arrID.map(function(url){
+                return getL(url);
+            })
+            try{
+                var characters = await Promise.all(promises);
+                //console.log(characters);
+                //poner estilos 
+
+                for(const i in characters){
+                    console.log("nombre: "+characters[i].name);
+                    console.log(characters[i].power);
+                    console.log(characters[i].combat);
+                    console.log(characters[i].strength);
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+    }
+
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

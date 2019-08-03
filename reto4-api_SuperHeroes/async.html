@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Async</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+        <header>
+                <img src="heroesI.png" id="img">
+            </header>
+    <!-- navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Heroes</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                 <!-- <a class="nav-link" href="#">Listar al azar</a> --> 
+                 <a   class="nav-link" href="./reto4.html">Listar Heroes</a>
+
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./async.html">Powers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./lista.html">other</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">other2</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    <!-- final navbar-->
+    <div class="container mt-5">
+        <button class="btn btn-warning" onclick="getAllData()">Get powers</button>
+        <div class="row mt-4" id="images">
+            <div class="container">
+                <div class="row" id="contenedor">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        function getP(url) {
+        return new Promise(function(resolve,reject){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                resolve(JSON.parse(this.responseText))
+            
+            }
+            else{
+                reject(this.status);
+            }
+            } 
+        };    
+        xhttp.open("GET",url);
+        xhttp.send();
+        });
+        }
+
+        //--------------
+        async function getAllData(){
+            //array de solicitudes
+            var arrID=['https://www.superheroapi.com/api.php/2265793450153143/69/powerstats','https://www.superheroapi.com/api.php/2265793450153143/263/powerstats', 'https://www.superheroapi.com/api.php/2265793450153143/644/powerstats','https://www.superheroapi.com/api.php/2265793450153143/659/powerstats','https://www.superheroapi.com/api.php/2265793450153143/38/powerstats','https://www.superheroapi.com/api.php/2265793450153143/561/powerstats'];
+            
+            var promises=arrID.map(function(url){
+                return getP(url);
+            })
+            try{
+                var characters = await Promise.all(promises);
+                //console.log(characters);
+                //poner estilos 
+                var conte = document.getElementById("contenedor");
+                 conte.innerHTML = "";
+                 var auxHtlm = "";
+                for(const i in characters){
+                    console.log("nombre: "+characters[i].name);
+                    console.log(characters[i].power);
+                    console.log(characters[i].combat);
+                    console.log(characters[i].strength);
+                    auxHtlm += `
+                    <div class="col">
+                    <div class="card" id="info">
+                        <div class="card-content">
+                            <h5 class="indigo-text text-darken-2">${characters[i].name}</h5>
+                            <h6>Power: ${characters[i].power}</h6>
+                            <h6>Combat: ${characters[i].combat}</h6>
+                            <h6>Strenght ${characters[i].strength}</h6> 
+                        </div>
+                    </div>     
+                </div>`;
+                }
+                conte.innerHTML = auxHtlm;
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+      
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

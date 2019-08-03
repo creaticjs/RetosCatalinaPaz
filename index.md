@@ -1,7 +1,7 @@
 ## Retos Bootcamp 2019
 ### Catalina Paz
 
-- reto 1. calculadora. [Link] (url1)
+- [reto 1. calculadora] (url1)
 
 1. Numbered
 2. List

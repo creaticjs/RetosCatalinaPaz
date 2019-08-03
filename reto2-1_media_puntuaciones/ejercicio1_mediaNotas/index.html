@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
+   
+</head>
+<body>
+    <h1> Notas del estudiante</h1>
+    <p>Por favor ingrese las notas del estudiante</p>
+    <table style="width:100%">
+            
+    <tr>  
+            <th> <p>Nota 1</p></th>
+            <th> <p>Nota 2</p></th>
+            <th> <p>Nota 3</p></th>
+            <th> <p>Nota 4</p></th>
+    </tr>
+    <tr>
+    <td><input id="nota1" type="number"></td>           
+    <td><input id="nota2" type="number"></td>           
+    <td><input id="nota3" type="number"></td>    
+    <td><input id="nota4" type="number"></td>
+     </tr>
+    </table>   
+
+    <button onclick="media()">Hallar la media de las notas</button>
+
+    <table id="tabla_media"> 
+            <tr>  
+                    <th> <p>Media</p></th>
+                    <th> <p>puntuacion</p></th>    
+            </tr>
+            <tr>
+                <td><p id="resultado"></p></td>
+                <td><p id="letra_puntuacion"></p></td>
+            </tr>
+    </table> 
+    <script src="./index.js"></script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 ## Retos Bootcamp 2019
 ### Catalina Paz
 
-- [reto 1. calculadora] (https://www.google.com)
-- Reto Calculadora [Calculadora](https://guides.github.com/features/mastering-markdown/).
+- [reto 1 calculadora] (https://www.google.com)
+- Reto Calculadora [Calculadora](https://creaticjs.github.io/RetosCatalinaPaz/reto1-calculadora/index.html).
 - Reto 1:  [Reto 1](https://guides.github.com/features/mastering-markdown/).
 
 1. Numbered
